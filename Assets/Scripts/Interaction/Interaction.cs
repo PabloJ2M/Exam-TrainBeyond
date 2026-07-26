@@ -17,6 +17,15 @@ public class Interaction : MonoBehaviour
     private void OnDisable() => inputAction.action.performed -= OnInputPerformed;
     private void OnInputPerformed(InputAction.CallbackContext _) => _currentInteraction?.Interact();
 
+    #if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (!_cameraTransform) return;
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(_cameraTransform.position, maxDistance * _cameraTransform.forward);
+    }
+    #endif
+
     private void Update()
     {
         Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out RaycastHit hit, maxDistance, interactableLayer);
@@ -40,7 +49,7 @@ public class Interaction : MonoBehaviour
     }
     private void Select(IInteractable newInteractable)
     {
-        if (_cameraTransform == newInteractable) return;
+        if (_currentInteraction == newInteractable) return;
         
         _currentInteraction = newInteractable;
         _currentInteraction?.Select();
