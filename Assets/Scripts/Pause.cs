@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
@@ -16,6 +16,8 @@ public class Pause : MonoBehaviour
 
     public void ButtonPause() => SetPause(true);
     public void ButtonUnPause() => SetPause(false);
+    
+    public void ButtonRestartScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     
     private void SetPause(bool value)
     {
